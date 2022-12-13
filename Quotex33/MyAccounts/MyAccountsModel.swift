@@ -7,14 +7,12 @@
 
 import SwiftUI
 
-struct MyAccountsModel: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
-
-struct MyAccountsModel_Previews: PreviewProvider {
-    static var previews: some View {
-        MyAccountsModel()
-    }
+struct MyAccountsModel: Identifiable {
+    
+    var id = UUID().uuidString
+    
+    var currencyID: Int
+    var currency: String
+    var totalMoney: Int
+    var name: String
 }

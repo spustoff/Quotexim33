@@ -26,12 +26,29 @@ struct NewAccountView: View {
                         .foregroundColor(.white)
                         .font(.system(size: 19, weight: .semibold))
                     
-                    Button(action: {}, label: {
+                    Button(action: {
                         
-                        Text("Done")
-                            .foregroundColor(Color("green"))
-                            .font(.system(size: 15, weight: .regular))
-                            .frame(maxWidth: .infinity, alignment: .trailing)
+                        withAnimation(.spring()) {
+                            
+                            viewModel.addCurrency()
+                        }
+                        
+                    }, label: {
+                        
+                        ZStack {
+                            
+                            if viewModel.isLoading {
+                                
+                                ProgressView()
+                                
+                            } else {
+                                
+                                Text("Done")
+                                    .foregroundColor(Color("green"))
+                                    .font(.system(size: 15, weight: .regular))
+                            }
+                        }
+                        .frame(maxWidth: .infinity, alignment: .trailing)
                     })
                     .disabled(viewModel.nameField.isEmpty || viewModel.currencyField.isEmpty ? true : false)
                     .opacity(viewModel.nameField.isEmpty || viewModel.currencyField.isEmpty ? 0.5 : 1)

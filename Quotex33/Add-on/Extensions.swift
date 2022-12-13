@@ -7,14 +7,24 @@
 
 import SwiftUI
 
-struct Extensions: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+extension UIApplication {
+    
+    func endEditing() {
+        
+        sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }
 
-struct Extensions_Previews: PreviewProvider {
-    static var previews: some View {
-        Extensions()
+extension UINavigationController: UIGestureRecognizerDelegate {
+    
+    override open func viewDidLoad() {
+        
+        super.viewDidLoad()
+        interactivePopGestureRecognizer?.delegate = self
+    }
+
+    public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        
+        return viewControllers.count > 1
     }
 }

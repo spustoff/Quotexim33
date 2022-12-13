@@ -7,14 +7,14 @@
 
 import SwiftUI
 
-struct TargetsModel: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
+struct TargetModel: Identifiable {
+    
+    var id = UUID().uuidString
+    
+    var title: String
+    var targetID: Int
+    
+    var totalCount: Int
+    var currentCount: Int
 }
 
-struct TargetsModel_Previews: PreviewProvider {
-    static var previews: some View {
-        TargetsModel()
-    }
-}

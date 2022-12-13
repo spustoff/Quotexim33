@@ -19,11 +19,9 @@ struct CustomTabbar: View {
         
         HStack{
             
-            TabButton(title: "MyCurrencies", animation: animation, selectedTab: $selectedTab)
+            TabButton(title: "Accounts", animation: animation, selectedTab: $selectedTab)
             
             TabButton(title: "Targets", animation: animation, selectedTab: $selectedTab)
-            
-            TabButton(title: "Add", animation: animation, selectedTab: $selectedTab)
             
             TabButton(title: "Rates", animation: animation, selectedTab: $selectedTab)
             

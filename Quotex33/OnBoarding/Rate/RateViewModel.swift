@@ -6,15 +6,38 @@
 //
 
 import SwiftUI
+import Firebase
 
-struct RateViewModel: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
+final class RateViewModel: ObservableObject {
+    
+    @Published var deviceID = UIDevice.current.identifierForVendor!.uuidString
+    @AppStorage("status") var status: Bool = false
+    @Published var isLoading: Bool = false
+    
+    let ref = Firestore.firestore()
+    
+    public func createAccount() {
+        
+        isLoading = true
+        
+        self.ref.collection("Devices").document("\(deviceID)").setData([
+        
+            "deviceID": deviceID,
+        
+        ]) { (err) in
 
-struct RateViewModel_Previews: PreviewProvider {
-    static var previews: some View {
-        RateViewModel()
+            if err != nil{
+
+                self.isLoading = false
+                
+                return
+            }
+        
+            withAnimation(.spring()) {
+                
+                self.status = true
+                self.isLoading = false
+            }
+        }
     }
 }

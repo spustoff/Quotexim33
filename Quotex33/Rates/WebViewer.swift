@@ -22,10 +22,10 @@ struct WebView: UIViewRepresentable {
         
         let htmlstring = """
 
-        <div style="background-color:#081524;">
-            <div style="background-color:#081524;" class="tradingview-widget-container">
+        <div style="background-color:#13151D;">
+            <div style="background-color:#13151D;" class="tradingview-widget-container">
               <div id="tradingview_22f32"></div>
-              <div style="background-color:#081524;" class="tradingview-widget-copyright"><a href="https://ru.tradingview.com/symbols/BTCUSDT/?exchange=BINANCE" rel="noopener" target="_blank"><span class="blue-text"></span></a></div>
+              <div style="background-color:#13151D;" class="tradingview-widget-copyright"><a href="https://ru.tradingview.com/symbols/BTCUSDT/?exchange=BINANCE" rel="noopener" target="_blank"><span class="blue-text"></span></a></div>
               <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
               <script type="text/javascript">
               new TradingView.widget(
@@ -37,7 +37,7 @@ struct WebView: UIViewRepresentable {
                 "theme": "dark",
                 "style": "3",
                 "locale": "en",
-                "toolbar_bg": "#081524",
+                "toolbar_bg": "#13151D",
                 "enable_publishing": false,
                 "hide_top_toolbar": true,
                 "studies": [

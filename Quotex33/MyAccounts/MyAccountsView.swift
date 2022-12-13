@@ -36,24 +36,24 @@ struct MyAccountsView: View {
                         
                         Menu {
                             
-                            ForEach(viewModel.currencies, id: \.self) { index in
+                            ForEach(viewModel.currencies) { index in
                                 
                                 Button(action: {
                                     
                                     withAnimation(.spring()) {
                                         
-                                        selectedCurrency = index
+                                        viewModel.selectedCurrency = index
                                     }
                                     
                                 }, label: {
                                     
                                     HStack {
                                         
-                                        Text(index)
+                                        Text(index.currency)
                                             
                                         Spacer()
                                         
-                                        if selectedCurrency == index {
+                                        if viewModel.selectedCurrency.currency == index.currency {
                                             
                                             Image(systemName: "xmark")
                                         }
@@ -65,7 +65,7 @@ struct MyAccountsView: View {
                             
                             HStack {
                                 
-                                Text(selectedCurrency)
+                                Text(viewModel.selectedCurrency.currency)
                                     .foregroundColor(.white)
                                     .font(.system(size: 15, weight: .regular))
                                 
@@ -76,20 +76,9 @@ struct MyAccountsView: View {
                         }
                     }
                     
-                    Text("$0")
+                    Text("$\(viewModel.selectedCurrency.totalMoney)")
                         .foregroundColor(.white)
                         .font(.system(size: 31, weight: .semibold))
-                    
-                    NavigationLink(destination: {}, label: {
-                        
-                        Text("View general statistics")
-                            .foregroundColor(Color("green"))
-                            .font(.system(size: 15, weight: .regular))
-                        
-                        Image(systemName: "chevron.right")
-                            .foregroundColor(Color("green"))
-                            .font(.system(size: 14, weight: .regular))
-                    })
                 }
                 .padding()
                 .background(RoundedRectangle(cornerRadius: 15).fill(Color("card").opacity(0.2)))
@@ -105,7 +94,7 @@ struct MyAccountsView: View {
                         
                         HStack {
                             
-                            Text("$0")
+                            Text("$\(viewModel.countAllOperations())")
                                 .foregroundColor(.white)
                                 .font(.system(size: 17, weight: .semibold))
                             
@@ -125,7 +114,7 @@ struct MyAccountsView: View {
                         
                         HStack {
                             
-                            Text("$0")
+                            Text("$\(viewModel.countAllOperations())")
                                 .foregroundColor(.white)
                                 .font(.system(size: 17, weight: .semibold))
                             
@@ -173,27 +162,118 @@ struct MyAccountsView: View {
                                 Image("add")
                             })
                         }
+                        .padding(.horizontal, 17)
                         
                         Spacer()
                         
-                        VStack {
+                        if viewModel.currencies.isEmpty {
                             
-                            Image("emptyaccounts")
+                            VStack {
+                                
+                                Image("emptyaccounts")
+                                
+                                Text("The accounts are empty")
+                                    .foregroundColor(.gray)
+                                    .font(.system(size: 25, weight: .semibold))
+                                
+                                Text("Click the 'add' button at the top to create a new account")
+                                    .foregroundColor(.gray)
+                                    .font(.system(size: 18, weight: .regular))
+                                    .multilineTextAlignment(.center)
+                            }
+                            .frame(maxHeight: .infinity, alignment: .center)
                             
-                            Text("The accounts are empty")
-                                .foregroundColor(.gray)
-                                .font(.system(size: 25, weight: .semibold))
+                        } else {
                             
-                            Text("Click the 'add' button at the top to create a new account")
-                                .foregroundColor(.gray)
-                                .font(.system(size: 18, weight: .regular))
-                                .multilineTextAlignment(.center)
+                            ScrollView(.vertical, showsIndicators: true) {
+                                
+                                LazyVStack {
+                                    
+                                    ForEach(viewModel.currencies) { index in
+                                        
+                                        VStack(alignment: .leading, content: {
+                                            
+                                            HStack {
+                                                
+                                                Text(index.name)
+                                                    .foregroundColor(.white)
+                                                    .font(.system(size: 16, weight: .regular))
+                                                
+                                                Spacer()
+                                                
+                                                Text(index.currency)
+                                                    .foregroundColor(.white)
+                                                    .font(.system(size: 14, weight: .regular))
+                                                
+                                                Image(systemName: "chevron.down")
+                                                    .foregroundColor(Color("green"))
+                                                    .font(.system(size: 14))
+                                            }
+                                            
+                                            Text("$\(index.totalMoney)")
+                                                .foregroundColor(.white)
+                                                .font(.system(size: 19, weight: .semibold))
+                                                .frame(maxWidth: .infinity, alignment: .leading)
+                                                .padding(.vertical, 3)
+                                            
+                                            HStack {
+                                                
+                                                NavigationLink(destination: {
+                                                    
+                                                    DetailAccountView(selectedAccount: index)
+                                                        .navigationBarBackButtonHidden()
+                                                    
+                                                }, label: {
+                                                    
+                                                    HStack {
+                                                        
+                                                        Text("View history")
+                                                            .foregroundColor(Color("green"))
+                                                            .font(.system(size: 14, weight: .regular))
+                                                        
+                                                        Image(systemName: "chevron.right")
+                                                            .foregroundColor(Color("green"))
+                                                            .font(.system(size: 14, weight: .regular))
+                                                    }
+                                                })
+                                                
+                                                Spacer()
+                                                
+                                                Button(action: {
+                                                    
+                                                    withAnimation(.spring()) {
+                                                        
+                                                        viewModel.selectedAccount = index
+                                                        
+                                                        if !(viewModel.selectedAccount?.currency ?? "").isEmpty {
+                                                            
+                                                            viewModel.showAdding = true
+                                                        }
+                                                    }
+                                                    
+                                                }, label: {
+                                                    
+                                                    Image(systemName: "plus")
+                                                        .foregroundColor(Color("green"))
+                                                        .font(.system(size: 15, weight: .regular))
+                                                })
+                                            }
+                                        })
+                                        .frame(maxWidth: .infinity)
+                                        .padding()
+                                        .background(RoundedRectangle(cornerRadius: 10).fill(Color("card").opacity(0.2)))
+                                    }
+                                }
+                                .padding(.top)
+                                .padding(.horizontal, 17)
+                            }
+                            .padding(.bottom, 75)
                         }
-                        .frame(maxHeight: .infinity, alignment: .center)
                     }
-                    .padding(30)
+                    .padding(.vertical, 17)
+                    .padding(.top, 15)
                 })
-                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.5)
+                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.45)
                 .background(RoundedRectangle(cornerRadius: 25).fill(Color("bg")))
             }
         )
@@ -201,6 +281,10 @@ struct MyAccountsView: View {
         .sheet(isPresented: $viewModel.showNewAccount, content: {
             
             NewAccountView()
+        })
+        .sheet(isPresented: $viewModel.showAdding, content: {
+            
+            AddView(account: viewModel.selectedAccount!)
         })
     }
 }

@@ -7,14 +7,14 @@
 
 import SwiftUI
 
-struct OnBoardingViewModel: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
-
-struct OnBoardingViewModel_Previews: PreviewProvider {
-    static var previews: some View {
-        OnBoardingViewModel()
-    }
+final class OnBoardingViewModel: ObservableObject {
+    
+    @Published var rows: [OnBoardingModel] = [
+    
+        OnBoardingModel(id: 1, image: "on1", title: "Welcome!", subtitle: "Save money easily in our app"),
+        OnBoardingModel(id: 2, image: "on2", title: "Rates", subtitle: "Let's gonna look to our rates!"),
+        OnBoardingModel(id: 3, image: "on3", title: "Our pairs", subtitle: "We got many pairs in our app."),
+    ]
+    
+    @Published var selection: Int = 1
 }

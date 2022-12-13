@@ -6,15 +6,15 @@
 //
 
 import SwiftUI
+import Firebase
 
-struct DetailAccountModel: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
-
-struct DetailAccountModel_Previews: PreviewProvider {
-    static var previews: some View {
-        DetailAccountModel()
-    }
+struct HistoryModel: Identifiable {
+    
+    var id = UUID().uuidString
+    
+    var type: String
+    var currency: String
+    var category: String
+    var sum: Int
+    var createdDate: Timestamp
 }

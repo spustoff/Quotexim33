@@ -7,14 +7,21 @@
 
 import SwiftUI
 
-struct BaseCurrencyViewModel: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
-
-struct BaseCurrencyViewModel_Previews: PreviewProvider {
-    static var previews: some View {
-        BaseCurrencyViewModel()
+final class BaseCurrencyViewModel: ObservableObject {
+    
+    @Published var currencies: [String] = ["EUR", "USD", "RUB", "TRY", "KZT", "UAH", "BYN", "GBP"]
+    @Published var search = ""
+    @Published var showList = false
+    
+    //MARK: - COUNTRY FLAG IN TEXT
+    public func countryFlag(countryCode: String) -> String {
+        
+      return String(String.UnicodeScalarView(
+        
+         countryCode.unicodeScalars.compactMap(
+           {
+               UnicodeScalar(127397 + $0.value)
+               
+           })))
     }
 }

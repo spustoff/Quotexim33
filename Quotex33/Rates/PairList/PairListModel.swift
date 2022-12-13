@@ -7,14 +7,29 @@
 
 import SwiftUI
 
-struct PairListModel: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
+struct PairListModel: Identifiable, Hashable, Codable {
+    
+    var id: UUID? = UUID()
+    
+    var error: Bool
+    var messages: [String]
+    
+    var currencies: [PairModel]
 }
 
-struct PairListModel_Previews: PreviewProvider {
-    static var previews: some View {
-        PairListModel()
-    }
+struct PairModel: Identifiable, Hashable, Codable {
+    
+    var id: UUID? = UUID()
+    
+    var pair: String
+    var price: Double
+    var isTrendUp: Bool
+    
+    var changeInPercent: Double
+    var change: Double
+    var bid: Double
+    var ask: Double
+    var max: Double
+    var min: Double
+    var currencyAt: String
 }
